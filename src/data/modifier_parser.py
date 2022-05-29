@@ -1,3 +1,4 @@
+import json
 import re
 """ 
 TODO:
@@ -9,6 +10,8 @@ TODO:
 """
 
 categories = set()
+# result = defaultdict()
+result = {}
 
 # match_category = re.compile(".*Category: (.*)")
 match_category = re.compile("- ([^,]*), Category: (.*)")
@@ -20,15 +23,23 @@ def parse_file(file):
 			count += 1
 			if 'Category' not in line:
 				continue
-			# line_cat = [x.strip() for x in re.match(match_category, line).groups()[0].split(",")]
 			matches = re.match(match_category, line).groups()
 			modifier, match_cat = matches[0], matches[1]
-			line_cat = [x.strip() for x in match_cat.split(",")]
-			categories.update(set(line_cat))
-			print(repr(modifier))
+			line_cats = [x.strip() for x in match_cat.split(",")]
+			categories.update(set(line_cats))
+			#TODO: Add new values instead of overwriting the previous value.
+			for line_cat in line_cats:
+				if line_cat in result:
+					result[line_cat].append(modifier)
+				else: 
+					result[line_cat] = [modifier]
 		print(count)
 		print(categories)
 
+		#Serialize json
+		json_object = json.dumps(result, indent=4)
+		with open('modifier_groups.json', 'w') as outfile:
+			outfile.write(json_object)
 
 parse_file(
 	"C:\\Users\\Hangfish\\Documents\\Paradox Interactive\\Stellaris\\logs\\script_documentation\\modifiers.log")
