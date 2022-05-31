@@ -1,6 +1,6 @@
 import json
 import re
-import sys
+import os
 """ 
 TODO:
 - ✅ Read the generated file from \Documents\Paradox Interactive\Stellaris\logs\script_documentation
@@ -18,6 +18,8 @@ STAGE 2:
 
 categories = set()
 result = {}
+os.chdir('J:\\Programmerings Folder\\Stellaris Tools\\Modifier_Server')
+# print(f"Current working directory: {os.getcwd()}")
 
 match_category = re.compile("- ([^,]*), Category: (.*)")
 
@@ -38,13 +40,15 @@ def parse_file(file):
 					result[line_cat].append(modifier)
 				else: 
 					result[line_cat] = [modifier]
-		# print(count)
-		# print(categories)
 
-		#Serialize json
-		json_object = json.dumps(result, indent=4)
-		with open('modifier_groups.json', 'w') as outfile:
-			outfile.write(json_object)
+		# Serialize json
+		print(json.dumps(result, indent=4))
+		# print(count)
+		# with open('modifier_groups.json', 'w') as outfile:
+		# 	outfile.write(json.dumps(result, indent=4))
 
 parse_file(
 	"C:\\Users\\Hangfish\\Documents\\Paradox Interactive\\Stellaris\\logs\\script_documentation\\modifiers.log")
+
+
+# print(f"File {os.path.exists('modifier_groups.json')}!!")
