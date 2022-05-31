@@ -1,0 +1,14 @@
+{
+  "name": "modifier_server",
+  "version": "1.0.0",
+  "description": "Server to handle modifier requests",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
